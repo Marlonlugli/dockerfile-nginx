@@ -1,0 +1,21 @@
+name: build and push
+
+on: 
+  push:
+    brainches:
+      - main
+
+
+jobs: 
+  build-and-push:
+    run-on: ubuntu-latest
+
+steps:
+  - name: checkout code
+    uses: actions/checkout@v2
+
+  - name: Docker build and push
+    run: |
+      docker login -u {{ secrets.DOCKERHUB_USERNAME }} -p {{ secrets.DOCKERHUB_PASSWORD }}
+      docker build -t marlonlugli/dockerfile.nginx:latest
+      docker push marlonlugli/dockerfile.nginx:latest
